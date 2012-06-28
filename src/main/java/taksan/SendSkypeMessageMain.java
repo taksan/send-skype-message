@@ -9,9 +9,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import com.skype.connector.Connector;
+
 public class SendSkypeMessageMain {
 	public static void main(String[] args) {
 		System.setProperty("skype.api.impl", "dbus");
+		Connector.getInstance().setApplicationName("CmdMessage");
 		CommandLine cmd = null;
 		try {
 			cmd = parseCommandLine(args);
