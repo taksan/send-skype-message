@@ -23,7 +23,7 @@ public class SendMessageToUser implements Runnable {
 			
 			user.send(message);
 		} catch (SkypeException e) {
-			throw new IllegalStateException("Failed to send message. Is skype up and running?");
+			throw new FailedDueToSkypeException();
 		}
 	}
 

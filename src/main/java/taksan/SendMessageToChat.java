@@ -24,7 +24,7 @@ public class SendMessageToChat implements Runnable {
 			target.send(message);
 			
 		} catch (SkypeException e) {
-			throw new IllegalStateException("Failed to send message. Is skype up and running?");
+			throw new FailedDueToSkypeException();
 		}
 	}
 

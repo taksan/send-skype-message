@@ -22,7 +22,10 @@ public class SendSkypeMessageMain {
 		Runnable c = getCommandToPerform(cmd);
 		try {
 			c.run();
-		}catch(IllegalArgumentException|IllegalStateException e) {
+		}catch(IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+		catch(FailedDueToSkypeException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -36,6 +39,12 @@ public class SendSkypeMessageMain {
 		if (cmd.hasOption("c")) {
 			String user = cmd.getOptionValue("c");
 			return new SendMessageToChat(user, message);
+		}
+		if (cmd.hasOption("ul")) {
+			return new PrintContactList();
+		}
+		if (cmd.hasOption("cl")) {
+			return new PrintChatList();
 		}
 		throw new IllegalArgumentException("Missing either user or chat title");
 	}
@@ -64,13 +73,17 @@ public class SendSkypeMessageMain {
 				.addOption(new Option("c", true, "send to chat with given window title"));
 				
 		options.addOptionGroup(destiny);
-		options.addOption(makeMandatoryOption("m", true, "message to send"));
+		
+		OptionGroup dir = new OptionGroup()
+				.addOption(new Option("ul", "print contact list"))
+				.addOption(new Option("cl", "print chat list"));
+		
+		options.addOptionGroup(dir);
+		
+		options.addOption("m", true, "message to send");
+		
+		
 		return options;
 	}
 
-	private static Option makeMandatoryOption(String opt, boolean hasArg, String description) {
-		Option message = new Option(opt, hasArg, description);
-		message.setRequired(true);
-		return message;
-	}
 }
