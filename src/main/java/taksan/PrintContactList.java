@@ -14,7 +14,7 @@ public class PrintContactList implements Runnable {
 				String fullName = friend.getFullName();
 				if (fullName.isEmpty())
 					fullName = friend.getId();
-				System.out.println(fullName);
+				System.out.println(String.format("%-35s |  %s",friend.getId(),fullName));
 			}
 		} catch (SkypeException e) {
 			throw new FailedDueToSkypeException();
