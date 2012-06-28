@@ -11,7 +11,7 @@ public class SendMessageToUser implements Runnable {
 	private final String message;
 
 	public SendMessageToUser(String userName, String message) {
-		this.userName = userName.trim().toLowerCase();
+		this.userName = userName;
 		this.message = message;	
 	}
 
@@ -28,19 +28,17 @@ public class SendMessageToUser implements Runnable {
 	}
 
 	private User getUser() throws SkypeException {
-		User user = User.getInstance(userName);
-		if (user == null) {
-			user = getUserByFullName(userName);
-		}
-		return user;
+		return getUserByFullName(userName);
 	}
 
 	private User getUserByFullName(String userName2) throws SkypeException {
 		Friend[] contactList = Skype.getContactList().getAllFriends();
 		for (Friend f : contactList) {
-			if (f.getFullName().trim().equalsIgnoreCase(userName2)){
+			if (f.getFullName().equalsIgnoreCase(userName2)){
 				return f;
 			}
+			if (f.getId().equalsIgnoreCase(userName2))
+				return f;
 		}
 		return null;
 	}
